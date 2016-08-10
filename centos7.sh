@@ -59,4 +59,6 @@ echo "./user-expired.sh"  | tee -a log-install.txt
 echo "./user-add.sh"  | tee -a log-install.txt
 echo "./user-trial.sh"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
+echo "SILAH REBOOT VPS ANDA ! shutdown -r now"  | tee -a log-install.txt
+echo ""  | tee -a log-install.txt
 echo "==============================================="  | tee -a log-install.txt
