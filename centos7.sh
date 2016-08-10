@@ -1,5 +1,5 @@
 # install 
-yum -y install squid
+yum -y install squid nano
 chkconfig squid on
 
 # setting port ssh
