@@ -7,6 +7,7 @@ sed -i '/Port 22/a Port 1080' /etc/ssh/sshd_config
 sed -i '/Port 22/a Port 443' /etc/ssh/sshd_config
 sed -i '/Port 22/a Port 109' /etc/ssh/sshd_config
 sed -i '/Port 22/a Port 143' /etc/ssh/sshd_config
+sed -i '/Port 22/a Port 80' /etc/ssh/sshd_config
 service sshd restart
 chkconfig sshd on
 
