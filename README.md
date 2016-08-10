@@ -14,7 +14,7 @@ Tested on
 * OpenVZ only
 
 ### Service
-* OpenSSH port 1080, 109, 143, 443
+* OpenSSH port 80, 109, 143, 443, 1080
 * Squid port 8080 (limit to IP VPS)
 
 
