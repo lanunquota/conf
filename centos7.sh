@@ -29,10 +29,10 @@ curl http://pastebin.com/raw/tQBgFJ5b > user-login.sh
 curl http://pastebin.com/raw/Bu3f4DPW > user-expired.sh
 curl http://pastebin.com/raw/X6p2b9nZ > user-add.sh
 curl http://pastebin.com/raw/rYEdJMeB > user-trial.sh
-chmod +x user-login.sh
-chmod +x user-expired.sh
-chmod +x user-add.sh
-chmod +x user-trial.sh
+chmod +x /usr/bin/user-login.sh
+chmod +x /usr/bin/user-expired.sh
+chmod +x /usr/bin/user-add.sh
+chmod +x /usr/bin/user-trial.sh
 
 # finalisasi
 service sshd restart
