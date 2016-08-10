@@ -2,11 +2,13 @@
 #Script auto create trial user SSH
 #yg akan expired setelah 3 hari
 #www.ARI-F.com | 089671477753
+MYIP=`curl -s ifconfig.me`;
+MYIP2="s/xxxxxxxxx/$MYIP/g";
 Login=trial-`</dev/urandom tr -dc X-Z0-9 | head -c4`
 mumetndase="3"
 Pass=`</dev/urandom tr -dc a-f0-9 | head -c9`
 IP=`ifconfig eth0:0| awk 'NR==2 {print $2}'| awk -F: '{print $2}'`
 useradd -e `date -d "$mumetndase days" +"%Y-%m-%d"` -s /sbin/nologin -M $Login
 echo -e "$Pass\n$Pass\n"|passwd $Login &> /dev/null
-echo -e "Login: $Login Password: $Pass\nIP: $IP Port: 1080, 109, 143, 443, 80"
+echo -e "Login: $Login Password: $Pass\nIP: $MYIP Port: 1080, 109, 143, 443, 80"
 echo -e "\e[1;33;44mLanunQuota\e[0m"
