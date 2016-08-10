@@ -25,10 +25,10 @@ yum -y remove cyrus-sasl
 
 # downlaod script
 cd /usr/bin
-curl http://pastebin.com/raw/tQBgFJ5b > user-login.sh
-curl http://pastebin.com/raw/Bu3f4DPW > user-expired.sh
-curl http://pastebin.com/raw/X6p2b9nZ > user-add.sh
-curl http://pastebin.com/raw/rYEdJMeB > user-trial.sh
+curl https://raw.githubusercontent.com/lanunquota/conf/master/tQBgFJ5b > user-login.sh
+curl https://raw.githubusercontent.com/lanunquota/conf/master/Bu3f4DPW > user-expired.sh
+curl https://raw.githubusercontent.com/lanunquota/conf/master/X6p2b9nZ > user-add.sh
+curl https://raw.githubusercontent.com/lanunquota/conf/master/rYEdJMeB > user-trial.sh
 chmod +x /usr/bin/user-login.sh
 chmod +x /usr/bin/user-expired.sh
 chmod +x /usr/bin/user-add.sh
@@ -45,7 +45,7 @@ echo "===============================================" | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
 echo "Service"  | tee -a log-install.txt
 echo "-------"  | tee -a log-install.txt
-echo "OpenSSH  : 1080, 109, 143, 443"  | tee -a log-install.txt
+echo "OpenSSH  : 1080, 109, 143, 443, 80"  | tee -a log-install.txt
 echo "Squid3   : 8080 (limit to IP SSH)"  | tee -a log-install.txt
 echo "Squid3   : 8080 (limit to IP SSH)"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
