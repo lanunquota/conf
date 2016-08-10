@@ -19,11 +19,11 @@ exit 1
 ;;
 esac
 
-echo "=================================================" > /tmp/hasil.txt
+echo "======================================================" > /tmp/hasil.txt
 echo " **** User SSH  Monitor ****" >> /tmp/hasil.txt
 cat /tmp/pid.txt | while read line;do
 set -- $line
 cat /tmp/sukses.txt | grep $1 >> /tmp/hasil.txt
 done
-echo "=================================================" >> /tmp/hasil.txt
+echo -e "======================\e[1;33;44mLanunQuota\e[0m======================" >> /tmp/hasil.txt
 cat /tmp/hasil.txt
