@@ -14,7 +14,8 @@ chkconfig sshd on
 # install squid
 yum -y install squid
 wget -O /etc/squid/squid.conf "https://raw.githubusercontent.com/lanunquota/conf/master/squid-centos.conf"
-sed -i $MYIP2 /etc/squid/squid.conf;
+MYIP=`curl -s ifconfig.me`;
+sed -i $MYIP /etc/squid/squid.conf;
 service squid restart
 chkconfig squid on
 
