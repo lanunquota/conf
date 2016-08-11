@@ -1,15 +1,19 @@
 # install 
-yum -y install squid nano
+yum -y install squid nano epel-release dropbear
 chkconfig squid on
 
 # setting port ssh
-sed -i '/Port 22/a Port 1080' /etc/ssh/sshd_config
-sed -i '/Port 22/a Port 443' /etc/ssh/sshd_config
-sed -i '/Port 22/a Port 109' /etc/ssh/sshd_config
-sed -i '/Port 22/a Port 143' /etc/ssh/sshd_config
 sed -i '/Port 22/a Port 80' /etc/ssh/sshd_config
+sed -i 's/#Port 22/Port  22/g' /etc/ssh/sshd_config
 service sshd restart
 chkconfig sshd on
+
+# install dropbear
+yum -y install dropbear
+echo "OPTIONS=\"-p 443\"" > /etc/sysconfig/dropbear
+echo "/bin/false" >> /etc/shells
+service dropbear restart
+chkconfig dropbear on
 
 # install squid
 yum -y install squid
@@ -19,9 +23,6 @@ MYIP2="s/xxxxxxxxx/$MYIP/g";
 sed -i $MYIP2 /etc/squid/squid.conf;
 chkconfig squid on
 service squid restart
-
-
-
 
 # remove unused
 yum -y remove sendmail;
@@ -34,10 +35,12 @@ curl https://raw.githubusercontent.com/lanunquota/conf/master/tQBgFJ5b > user-lo
 curl https://raw.githubusercontent.com/lanunquota/conf/master/Bu3f4DPW > user-expired.sh
 curl https://raw.githubusercontent.com/lanunquota/conf/master/X6p2b9nZ > user-add.sh
 curl https://raw.githubusercontent.com/lanunquota/conf/master/rYEdJMeB > user-trial.sh
+curl https://raw.githubusercontent.com/lanunquota/conf/master/np5dXPD2 > user-limit.sh
 chmod +x /usr/bin/user-login.sh
 chmod +x /usr/bin/user-expired.sh
 chmod +x /usr/bin/user-add.sh
 chmod +x /usr/bin/user-trial.sh
+chmod +x /usr/bin/user-limit.sh
 
 # finalisasi
 service sshd restart
@@ -50,7 +53,8 @@ echo "===============================================" | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
 echo "Service"  | tee -a log-install.txt
 echo "-------"  | tee -a log-install.txt
-echo "OpenSSH  : 1080, 109, 143, 443, 80"  | tee -a log-install.txt
+echo "OpenSSH  : 80"  | tee -a log-install.txt
+echo "DropBear  : 443"  | tee -a log-install.txt
 echo "Squid3   : 8080 (limit to IP SSH)"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
 echo "Script"  | tee -a log-install.txt
@@ -59,6 +63,7 @@ echo "./user-login.sh"  | tee -a log-install.txt
 echo "./user-expired.sh"  | tee -a log-install.txt
 echo "./user-add.sh"  | tee -a log-install.txt
 echo "./user-trial.sh"  | tee -a log-install.txt
+echo "./user-limit.sh"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
 echo "SILAH REBOOT VPS ANDA ! shutdown -r now"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
