@@ -2,6 +2,10 @@
 yum -y install squid nano epel-release dropbear
 chkconfig squid on
 
+# set locale
+sed -i 's/AcceptEnv/#AcceptEnv/g' /etc/ssh/sshd_config
+service sshd restart
+
 # setting port ssh
 sed -i '/Port 22/a Port 80' /etc/ssh/sshd_config
 sed -i 's/#Port 22/Port  22/g' /etc/ssh/sshd_config
