@@ -14,8 +14,9 @@ Tested on
 * OpenVZ only
 
 ### Service
-* OpenSSH port 80, 109, 143, 443, 1080
+* OpenSSH port 80
 * Squid port 8080 (limit to IP VPS)
+* DropBear port 443
 
 
 ### What's script included
@@ -23,4 +24,5 @@ Tested on
 * user-expired.sh
 * user-add.sh
 * user-trial.sh
+* user-limit.sh
 
