@@ -24,6 +24,11 @@ sed -i $MYIP2 /etc/squid/squid.conf;
 chkconfig squid on
 service squid restart
 
+# install fail2ban
+yum -y install fail2ban
+service fail2ban restart
+chkconfig fail2ban on
+
 # remove unused
 yum -y remove sendmail;
 yum -y remove httpd;
@@ -36,6 +41,10 @@ curl https://raw.githubusercontent.com/lanunquota/conf/master/Bu3f4DPW > user-ex
 curl https://raw.githubusercontent.com/lanunquota/conf/master/X6p2b9nZ > user-add.sh
 curl https://raw.githubusercontent.com/lanunquota/conf/master/rYEdJMeB > user-trial.sh
 curl https://raw.githubusercontent.com/lanunquota/conf/master/np5dXPD2 > user-limit.sh
+echo "* * * * * root /usr/bin/user-limit.sh" > /etc/crontab
+echo "* * * * * root sleep 5; /usr/bin/user-limit.sh" > /etc/crontab
+echo "* * * * * root sleep 10; /usr/bin/user-limit.sh" > /etc/crontab
+echo "* * * * * root sleep 15; /usr/bin/user-limit.sh" > /etc/crontab
 chmod +x /usr/bin/user-login.sh
 chmod +x /usr/bin/user-expired.sh
 chmod +x /usr/bin/user-add.sh
@@ -45,6 +54,10 @@ chmod +x /usr/bin/user-limit.sh
 # finalisasi
 service sshd restart
 service squid restart
+service dropbear restart
+service fail2ban restart
+service crond restart
+chkconfig crond on
 
 # info
 clear
@@ -53,8 +66,9 @@ echo "===============================================" | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
 echo "Service"  | tee -a log-install.txt
 echo "-------"  | tee -a log-install.txt
+echo "Fail2Ban : [on]"  | tee -a log-install.txt
 echo "OpenSSH  : 80"  | tee -a log-install.txt
-echo "DropBear  : 443"  | tee -a log-install.txt
+echo "DropBear : 443"  | tee -a log-install.txt
 echo "Squid3   : 8080 (limit to IP SSH)"  | tee -a log-install.txt
 echo ""  | tee -a log-install.txt
 echo "Script"  | tee -a log-install.txt
