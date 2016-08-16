@@ -25,6 +25,8 @@ wget -O /etc/squid/squid.conf "https://raw.githubusercontent.com/lanunquota/conf
 MYIP=`curl -s ifconfig.me`;
 MYIP2="s/xxxxxxxxx/$MYIP/g";
 sed -i $MYIP2 /etc/squid/squid.conf;
+sed -i '$ a nameserver 8.8.8.8' /etc/squid/squid.conf;
+sed -i '$ a nameserver 8.8.4.4' /etc/squid/squid.conf;
 chkconfig squid on
 service squid restart
 
