@@ -2,6 +2,10 @@
 yum -y install squid nano epel-release dropbear
 chkconfig squid on
 
+# disable ping flood
+sed -i '$ a net.ipv4.icmp_echo_ignore_all = 1' /etc/sysctl.conf
+sysctl -p
+
 # set locale
 sed -i 's/AcceptEnv/#AcceptEnv/g' /etc/ssh/sshd_config
 service sshd restart
