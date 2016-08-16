@@ -17,7 +17,6 @@ Tested on
 * OpenSSH port 80
 * Squid port 8080 (limit to IP VPS)
 * DropBear port 443
-* Anti Torrent & P0rn
 
 
 ### What's script included
