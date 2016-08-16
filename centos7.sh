@@ -25,7 +25,6 @@ chkconfig dropbear on
 
 # install squid
 yum -y install squid
-wget -O /etc/squid/blocked_sites "https://raw.githubusercontent.com/lanunquota/conf/master/fBepYUuw"
 wget -O /etc/squid/squid.conf "https://raw.githubusercontent.com/lanunquota/conf/master/squid-centos.conf"
 MYIP=`curl -s ifconfig.me`;
 MYIP2="s/xxxxxxxxx/$MYIP/g";
