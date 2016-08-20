@@ -49,6 +49,7 @@ curl https://raw.githubusercontent.com/lanunquota/conf/master/Bu3f4DPW > user-ex
 curl https://raw.githubusercontent.com/lanunquota/conf/master/X6p2b9nZ > user-add.sh
 curl https://raw.githubusercontent.com/lanunquota/conf/master/rYEdJMeB > user-trial.sh
 curl https://raw.githubusercontent.com/lanunquota/conf/master/np5dXPD2 > user-limit.sh
+sed -i $MYIP2 /usr/bin/user-trial.sh;
 echo "* * * * * root /usr/bin/user-limit.sh" > /etc/crontab
 echo "* * * * * root sleep 5; /usr/bin/user-limit.sh" > /etc/crontab
 echo "* * * * * root sleep 10; /usr/bin/user-limit.sh" > /etc/crontab
