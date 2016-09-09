@@ -1,5 +1,6 @@
 #!/bin/bash
 # Script to add a user to Linux system
+mumetndase="31"
 if [ $(id -u) -eq 0 ]; then
 	read -p "Enter username : " username
 	read -s -p "Enter password : " password
@@ -9,7 +10,7 @@ if [ $(id -u) -eq 0 ]; then
 		exit 1
 	else
 		pass=$(perl -e 'print crypt($ARGV[0], "password")' $password)
-		useradd -m -s /sbin/nologin -p $pass $username
+		useradd -m -s /sbin/nologin -p $pass $username -e `date -d "$mumetndase days" +"%Y-%m-%d"`
 		[ $? -eq 0 ] && echo "User has been added to system!" || echo "Failed to add a user!"
 	fi
 else
