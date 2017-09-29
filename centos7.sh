@@ -10,6 +10,11 @@ sysctl -p
 sed -i 's/AcceptEnv/#AcceptEnv/g' /etc/ssh/sshd_config
 service sshd restart
 
+#disable_selinux
+echo -e "[\033[33m*\033[0m] Disabling SELinux"
+sed -i -e 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config >> $LOG 2>&1
+setenforce 0 >> $LOG 2>&1
+
 # setting port ssh
 sed -i '/Port 22/a Port 80' /etc/ssh/sshd_config
 sed -i 's/#Port 22/Port  22/g' /etc/ssh/sshd_config
@@ -23,6 +28,59 @@ echo "/bin/false" >> /etc/shells
 service dropbear restart
 chkconfig dropbear on
 
+#install_nginx
+echo -e "[\033[33m*\033[0m] Installing & Configuring NGINX Webserver"
+yum install nginx --enablerepo=epel -y >> $LOG 2>&1
+
+#  awk 'NR== 21 { print "map $scheme $https {" ; print "default off;" ; print "https on;"; print "}"} { print }' /etc/nginx/nginx.conf > /tmp/nginx.conf
+#  rm -f /etc/nginx/nginx.conf
+#  mv /tmp/nginx.conf /etc/nginx
+
+systemctl disable httpd >> $LOG 2>&1
+systemctl enable nginx >> $LOG 2>&1
+systemctl start nginx >> $LOG 2>&1
+  
+yum install php php-fpm php-cli php-mysql php-gd php-imap php-ldap php-odbc php-pear php-xml php-xmlrpc php-pecl-apc php-magickwand php-magpierss php-mbstring php-mcrypt php-mssql php-shout php-snmp php-soap php-tidy -y >> $LOG 2>&1
+sed -i -e 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/' /etc/php.ini >> $LOG 2>&1
+systemctl enable php-fpm >> $LOG 2>&1
+systemctl start php-fpm >> $LOG 2>&1
+yum install -y fcgi-devel >> $LOG 2>&1
+
+echo -e "  [\033[33m*\033[0m] Compil fcgiwrap (cause it don't exist in rpm for CentOS)"
+cd /usr/local/src/
+git clone git://github.com/gnosek/fcgiwrap.git >> $LOG 2>&1
+echo -e "  [\033[32m*\033[0m] Gitting sources done"
+cd fcgiwrap
+autoreconf -i >> $LOG 2>&1 
+./configure >> $LOG 2>&1
+make >> $LOG 2>&1
+make install >> $LOG 2>&1
+echo -e "  [\033[32m*\033[0m] fcgiwrap done"
+
+yum install spawn-fcgi -y >> $LOG 2>&1
+echo -e "[\033[33m*\033[0m] Setting /etc/sysconfig/spawn-fcgi configuration file"
+cat <<EOF > /etc/sysconfig/spawn-fcgi
+# You must set some working options before the "spawn-fcgi" service will work.
+#
+# If SOCKET points to a file, then this file is cleaned up by the init script. #
+# See spawn-fcgi(1) for all possible options.
+# 
+# Example :
+#SOCKET=/var/run/php-fcgi.sock
+#OPTIONS="-u apache -g apache -s $SOCKET -S -M 0600 -C 32 -F 1 -P /var/run/spawn-fcgi.pid -- /usr/bin/php-cgi"
+
+FCGI_SOCKET=/var/run/fcgiwrap.socket
+FCGI_PROGRAM=/usr/local/sbin/fcgiwrap
+FCGI_USER=apache
+FCGI_GROUP=apache
+FCGI_EXTRA_OPTIONS="-M 0770"
+OPTIONS="-u $FCGI_USER -g $FCGI_GROUP -s $FCGI_SOCKET -S $FCGI_EXTRA_OPTIONS -F 1 -P /var/run/spawn-fcgi.pid -- $FCGI_PROGRAM"
+EOF
+
+usermod -a -G apache nginx >> $LOG 2>&1
+systemctl enable spawn-fcgi >> $LOG 2>&1
+systemctl start spawn-fcgi >> $LOG 2>&1
+  
 # install squid
 yum -y install squid
 wget -O /etc/squid/squid.conf "https://raw.githubusercontent.com/lanunquota/conf/master/squid-centos.conf"
